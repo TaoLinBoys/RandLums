@@ -26,11 +26,12 @@ int main(){
   int *array = (int*)malloc(40);
   
   //filling array up
-  int ctr = 0;
-  while(ctr < 10){
-    array[ctr] = randInt();
-    ctr++;
+  int ctr = *array;
+  while(*array){
+    *array = randInt();
+    array++;
   }
+  array = ctr;
   
   //writing array into file
   umask(0);
@@ -39,7 +40,6 @@ int main(){
   while(*array){
     write(fd,array,4);
     array++;
-    printf("wtf");
   }
 
   close(fd);
