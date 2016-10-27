@@ -19,6 +19,10 @@ int randInt(){
 }
 
 void printArray(int *arr){
+  while (*arr){
+	printf("%d, ",*arr);
+	arr++;
+  }
   
 }
 
@@ -26,24 +30,30 @@ int main(){
   int *array = (int*)malloc(40);
   
   //filling array up
-  int ctr = *array;
-  while(*array){
+  int ctr = 0;
+  int *temp = array;
+  while(ctr<10){
     *array = randInt();
-    array++;
+	array++;
+    ctr++;
   }
-  array = ctr;
-  
+
+
   //writing array into file
   umask(0);
   int fd = open("randFile.txt", O_CREAT | O_APPEND, 0666);
 
-  while(*array){
-    write(fd,array,4);
-    array++;
+  
+  while(*temp){
+	if (write(fd,temp,4) == -1){
+		printf("what");
+	}
+    temp++;
   }
 
   close(fd);
-  
+
   printArray(array);
+  free(array);
   return 0;
 }
